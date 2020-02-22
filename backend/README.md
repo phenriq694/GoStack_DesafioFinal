@@ -10,6 +10,7 @@ yarn dev
 
 ## Libs utilizadas:
 - Express
+- bcryptjs
 
 ## Ferramentas:
 - ESLint;
