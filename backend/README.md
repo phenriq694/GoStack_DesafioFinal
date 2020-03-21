@@ -1,7 +1,7 @@
 ## Inicialização da aplicação em desenvolvimento:
 1. Inicializar a instância do docker: 
 ```
-docker start fastfeet
+docker start fastfeet redisFastfeet
 ```
 2. Inicializar a aplicação:
 ```
