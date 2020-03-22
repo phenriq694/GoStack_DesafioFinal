@@ -64,6 +64,55 @@ class OrderController {
 
     return res.json(order);
   }
+
+  async update(req, res) {
+    const schema = Yup.object().shape({
+      recipient_id: Yup.number(),
+      deliveryman_id: Yup.number(),
+      product: Yup.string(),
+    });
+
+    if (!(await schema.isValid(req.body))) {
+      return res.status(400).json({ error: 'Validation fails' });
+    }
+
+    const { recipient_id, deliveryman_id } = req.body;
+
+    /**
+     * Check if order exists
+     */
+    const order = await Order.findByPk(req.params.order_id);
+
+    if (!order) {
+      return res.status(400).json({ error: 'Order does not exists' });
+    }
+
+    /**
+     * Check if recipient exists
+     */
+    if (recipient_id) {
+      const recipientExists = await Recipient.findByPk(recipient_id);
+
+      if (!recipientExists) {
+        return res.status(400).json({ error: 'Recipient does not exists' });
+      }
+    }
+
+    /**
+     * Check if deliveryman exists
+     */
+    if (deliveryman_id) {
+      const deliverymanExists = await Deliveryman.findByPk(deliveryman_id);
+
+      if (!deliverymanExists) {
+        return res.status(400).json({ error: 'Deliveryman does not exists' });
+      }
+    }
+
+    await order.update(req.body);
+
+    return res.json(order);
+  }
 }
 
 export default new OrderController();
