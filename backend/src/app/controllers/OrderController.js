@@ -15,6 +15,11 @@ class OrderController {
           as: 'deliveryman',
           attributes: ['name', 'email'],
         },
+        {
+          model: Recipient,
+          as: 'recipient',
+          attributes: ['name', 'zip_code'],
+        },
       ],
     });
 
@@ -110,6 +115,18 @@ class OrderController {
     }
 
     await order.update(req.body);
+
+    return res.json(order);
+  }
+
+  async delete(req, res) {
+    const order = await Order.findByPk(req.params.order_id);
+
+    if (!order) {
+      return res.status(400).json({ error: 'Order cannot be found' });
+    }
+
+    await order.destroy();
 
     return res.json(order);
   }
