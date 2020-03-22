@@ -25,6 +25,11 @@ routes.get(
   OrderDeliveredController.index
 );
 
+routes.post(
+  '/deliveryman/:deliveryman_id/deliveries/:order_id/withDrawal',
+  DeliveryController.store
+);
+
 routes.use(authMiddleware);
 
 routes.post('/users', UserController.store);
