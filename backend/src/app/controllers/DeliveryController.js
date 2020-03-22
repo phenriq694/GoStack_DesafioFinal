@@ -13,7 +13,9 @@ class DeliveryController {
       return res.status(400).json({ error: 'Deliveryman does not exists' });
     }
 
-    const deliveries = await Order.findAll({ where: { deliveryman_id } });
+    const deliveries = await Order.findAll({
+      where: { deliveryman_id, canceled_at: null, end_date: null },
+    });
 
     return res.json(deliveries);
   }
