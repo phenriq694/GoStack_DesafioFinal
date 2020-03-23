@@ -36,6 +36,8 @@ routes.put(
   DeliveryController.update
 );
 
+routes.post('/delivery/:order_id/problems', DeliveryProblemController.store);
+
 routes.post('/files', upload.single('file'), FileController.store);
 
 routes.use(authMiddleware);
