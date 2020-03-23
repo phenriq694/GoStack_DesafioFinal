@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    alert('teste fore')
+    function loadDescriptionList(descriptions) {
+      alert('teste')
+      const descriptionArray = descriptions.split(",")
+  
+      let ul = document.getElementById(descriptionList)
+  
+      descriptionArray.forEach(d => {
+        console.log(d)
+        let li = document.createElement('li')
+  
+        li.innerHTML = d
+  
+        ul.appendChild(li)
+      })
+    }
+    
+  </script>
+  
+  <ul id="descriptionList" onload=loadDescriptionList(teste, testeetst, testests)></ul>
+
+</body>
+</html>
+
+

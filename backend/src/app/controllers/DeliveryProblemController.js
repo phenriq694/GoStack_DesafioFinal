@@ -2,6 +2,11 @@ import * as Yup from 'yup';
 
 import DeliveryProblem from '../models/DeliveryProblem';
 import Order from '../models/Order';
+import Deliveryman from '../models/Deliveryman';
+import Recipient from '../models/Recipient';
+
+import CancellationMail from '../jobs/CancellationMail';
+import Queue from '../../lib/Queue';
 
 class DeliveryProblemController {
   async index(req, res) {
@@ -63,6 +68,63 @@ class DeliveryProblemController {
     });
 
     return res.json(deliveryProblem);
+  }
+
+  async delete(req, res) {
+    const { order_id } = req.params;
+
+    const order = await Order.findByPk(order_id, {
+      include: [
+        {
+          model: Deliveryman,
+          as: 'deliveryman',
+          attributes: ['name', 'email'],
+        },
+        {
+          model: Recipient,
+          as: 'recipient',
+          attributes: [
+            'name',
+            'street',
+            'street_number',
+            'complement',
+            'state',
+            'city',
+            'zip_code',
+          ],
+        },
+      ],
+    });
+
+    /**
+     * Check if order exists
+     */
+    if (!order) {
+      return res.status(400).json({ error: 'Order does not exists' });
+    }
+
+    order.canceled_at = new Date();
+
+    await order.save();
+
+    const deliveryProblem = await DeliveryProblem.findAll({
+      where: { order_id },
+    });
+
+    const allDeliveryProblemDescription = deliveryProblem.map(
+      dp => dp.description
+    );
+
+    /**
+     * Send an e-mail to Deliveryman
+     */
+    await Queue.add(CancellationMail.key, {
+      deliveryman: order.deliveryman,
+      recipient: order.recipient,
+      deliveryProblem_description: allDeliveryProblemDescription,
+    });
+
+    return res.json(order);
   }
 }
 

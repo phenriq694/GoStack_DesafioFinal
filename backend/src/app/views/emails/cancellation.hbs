@@ -1,0 +1,21 @@
+<strong>Olá, {{ deliveryman_name }}</strong>
+<p>A entrega de uma encomenda foi cancelada:</p>
+<p>
+  <strong>Detalhes da encomenda:</strong> <br />
+  <strong>Cliente: </strong> {{ recipient_name }} <br />
+  <strong>Rua: </strong> {{ street_name }} <br />
+  <strong>Número: </strong> {{ street_number }} <br />
+  <strong>Complemento: </strong> {{ complement }} <br />
+  <strong>Estado: </strong> {{ state }} <br />
+  <strong>Cidade: </strong> {{ city }} <br />
+  <strong>CEP: </strong> {{ zip_code }} <br /><br />
+
+  <strong>Problemas na entrega:</strong> <br />
+  <ul>
+    {{#each deliveryProblem_description}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ul>
+
+  <br />
+</p>
