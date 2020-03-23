@@ -30,6 +30,13 @@ routes.post(
   DeliveryController.store
 );
 
+routes.put(
+  '/deliveryman/:deliveryman_id/deliveries/:order_id/finish',
+  DeliveryController.update
+);
+
+routes.post('/files', upload.single('file'), FileController.store);
+
 routes.use(authMiddleware);
 
 routes.post('/users', UserController.store);
@@ -37,8 +44,6 @@ routes.put('/users', UserController.update);
 
 routes.post('/recipients', RecipientController.store);
 routes.put('/recipients/:recipient_id', RecipientController.update);
-
-routes.post('/files', upload.single('file'), FileController.store);
 
 routes.get('/deliverymen', DeliverymanController.index);
 routes.post('/deliverymen', DeliverymanController.store);
