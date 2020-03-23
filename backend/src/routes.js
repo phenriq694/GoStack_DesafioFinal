@@ -9,6 +9,7 @@ import DeliverymanController from './app/controllers/DeliverymanController';
 import OrderController from './app/controllers/OrderController';
 import DeliveryController from './app/controllers/DeliveryController';
 import OrderDeliveredController from './app/controllers/OrderDeliveredController';
+import DeliveryProblemController from './app/controllers/DeliveryProblemController';
 
 import authMiddleware from './app/middlewares/auth';
 import multerConfig from './config/multer';
@@ -54,5 +55,7 @@ routes.post('/orders', OrderController.store);
 routes.get('/orders', OrderController.index);
 routes.put('/orders/:order_id', OrderController.update);
 routes.delete('/orders/:order_id', OrderController.delete);
+
+routes.get('/problems', DeliveryProblemController.index);
 
 export default routes;
